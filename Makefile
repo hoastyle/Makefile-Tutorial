@@ -15,4 +15,4 @@ main.o: main.c common.h
 
 .PHONY: clean
 clean:
-	rm -rf main
+	rm -rf main *.o
