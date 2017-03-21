@@ -3,8 +3,11 @@ SRC = $(wildcard *.c)
 SRC_OBJ = $(SRC:.c=.o)
 SRC_LIB = libtools.a
 
+ifeq ($(DEBUG_ENABLE), TRUE)
 CFLAGS += -g -Wall -Werror -O2
-# LFLAGS += -I../../inc
+else
+CFLAGS += -Wall -Werror -O2
+endif
 CPPFLAGS += -I../../inc
 
 # target
