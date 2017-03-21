@@ -10,12 +10,23 @@ CFLAGS += -Wall -Werror -O2
 endif
 CPPFLAGS += -I../../inc
 
+ifneq ($(BUILDDIR),)
+	SUBDIR = $(BUILDDIR)/obj/$(MODULES)
+else
+	@echo error!!!!!!!!!!!!!!!!!!!!!
+endif
+
 # target
-all: $(SRC_LIB)
+all: $(SUBDIR) $(SRC_LIB)
+
+$(SUBDIR):
+	@echo $(SUBDIR)
+	mkdir -p ../../$@
 
 $(SRC_LIB): $(SRC_OBJ)
 	$(AR) rcs $@ $^
-	cp $@ ../../libs
+	mv $@ ../../$(BUILDDIR)/lib
+	mv $^ ../../$(SUBDIR)
 
 obj: $(SRC_OBJ)
 

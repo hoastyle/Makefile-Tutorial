@@ -4,23 +4,33 @@ SRC = $(wildcard *.c)
 SRC_OBJ = $(SRC:.c=.o)
 TARGET_BIN = main
 
+ifneq ($(BUILDDIR),)
+	SUBDIR = $(BUILDDIR)/obj/$(MODULES)
+else
+	@echo error!!!!!!!!!!!!!!!!!!!!!
+endif
+
 ifeq ($(DEBUG_ENABLE), TRUE)
 CFLAGS += -g -Wall -Werror -O2
 else
 CFLAGS += -Wall -Werror -O2
 endif
 CPPFLAGS += -I../../inc
-LDFLAGS += -L../../libs -ltools -lipc
+LDFLAGS += -L../../$(BUILDDIR)/lib -ltools -lipc
 
 # target
-all: $(TARGET_BIN)
+all: $(SUBDIR) $(TARGET_BIN)
+
+$(SUBDIR):
+	mkdir -p ../../$@
 
 $(TARGET_BIN): $(SRC_OBJ)
 	@echo
 	@echo ======================$(export_var)=======================
 	@echo
 	$(CC) -o $@ $^ $(LDFLAGS)
-	cp $@ ../../
+	mv $^ ../../$(SUBDIR)
+	mv $@ ../../$(BUILDDIR)/bin
 
 obj: $(SRC_OBJ)
 
