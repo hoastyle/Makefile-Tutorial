@@ -1,23 +1,13 @@
-# add file automaticlly 
-SRC = $(wildcard *.c)
+# top level makefile
 
-# add object automaticlly
-SRC_OBJ = $(SRC:.c=.o)
-SRC_BIN = main
+all:
+	$(MAKE) -C src
 
-# CFLAGS for C compiler
-# -Wall enable warning
-# -Werror make all warnings into errors
-CFLAGS += -g -Wall -Werror -O2
+cscope:
+	cscope -Rbq
 
-# CPPFLAGS for header path
-CPPFLAGS += -I./inc
-
-# LFLAGS for linker
-
-$(SRC_BIN): $(SRC_OBJ)
-	$(CC) -o $@ $^
-
-.PHONY: clean
 clean:
-	$(RM) $(SRC_BIN) $(SRC_OBJ)
+	$(MAKE) -C src clean 
+	$(RM) cscope*
+
+.PHONY: all cscope clean
