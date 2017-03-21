@@ -1,13 +1,23 @@
 # top level makefile
 
 all:
-	$(MAKE) -C src
+	$(MAKE) -C src/ipc
+	$(MAKE) -C src/tools
+	$(MAKE) -C src/main
 
 cscope:
 	cscope -Rbq
 
-clean:
-	$(MAKE) -C src clean 
-	$(RM) cscope*
+help:
 
-.PHONY: all cscope clean
+obj:
+
+clean:
+	$(MAKE) -C src/ipc clean
+	$(MAKE) -C src/tools clean
+	$(MAKE) -C src/main clean
+	$(RM) cscope* main libs/*
+
+distclean:
+
+.PHONY: all cscope help obj clean distclean
