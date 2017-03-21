@@ -13,7 +13,9 @@ LDFLAGS += -L../../libs -ltools -lipc
 all: $(TARGET_BIN)
 
 $(TARGET_BIN): $(SRC_OBJ)
-	@echo $(SRC_OBJ)
+	@echo
+	@echo ======================$(export_var)=======================
+	@echo
 	$(CC) -o $@ $^ $(LDFLAGS)
 	cp $@ ../../
 

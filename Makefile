@@ -1,9 +1,16 @@
 # top level makefile
 
-all:
-	$(MAKE) -C src/ipc
-	$(MAKE) -C src/tools
-	$(MAKE) -C src/main
+DIR = src
+SUBDIR = $(shell ls $(DIR))
+export export_var = Just for test export
+
+# Will bring order problem, might failed because main was compiled first
+all: $(SUBDIR)
+
+main: ipc tools
+
+$(SUBDIR):
+	make -C $(DIR)/$@
 
 cscope:
 	cscope -Rbq
