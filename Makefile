@@ -1,9 +1,23 @@
-SRC_OBJ = debug.o ipc.o timer.o main.o
+# add file automaticlly 
+SRC = $(wildcard *.c)
+
+# add object automaticlly
+SRC_OBJ = $(SRC:.c=.o)
 SRC_BIN = main
 
-${SRC_BIN}: ${SRC_OBJ}
-	gcc -o $@ $^
+# CFLAGS for C compiler
+# -Wall enable warning
+# -Werror make all warnings into errors
+CFLAGS += -g -Wall -Werror -O2
+
+# CPPFLAGS for header path
+CPPFLAGS += -I./inc
+
+# LFLAGS for linker
+
+$(SRC_BIN): $(SRC_OBJ)
+	$(CC) -o $@ $^
 
 .PHONY: clean
 clean:
-	rm -rf ${SRC_BIN} ${SRC_OBJ}
+	$(RM) $(SRC_BIN) $(SRC_OBJ)
