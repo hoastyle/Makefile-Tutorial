@@ -20,9 +20,9 @@ $(TARGET_BIN): $(SRC_OBJ)
 obj: $(SRC_OBJ)
 
 clean:
-	$(RM) $(SRC_OBJ) $(SRC_LIB)
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(TARGET_BIN)
 
 distclean:
-	$(RM) $(SRC_OBJ) $(SRC_LIB) *~
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(TARGET_BIN) *~
 
 .PHONY: all obj clean distclean
