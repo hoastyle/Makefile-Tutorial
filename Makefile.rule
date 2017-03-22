@@ -1,0 +1,67 @@
+ifeq ($(DEBUG_SYMBOLS),TRUE)
+CFLAGS +=-g -Wall -Werror -O0
+else
+CFLAGS +=-Wall -Werror -O2
+endif
+
+ifeq ($(MAKELEVEL), 0)
+all: msg
+else
+all: $(SRC_BIN) $(SRC_LIB)
+endif
+
+ifneq ($(SRC_BIN),)
+$(SRC_BIN): $(SRC_OBJ)
+	$(CC) -o $@ $^ $(LDFLAGS)
+endif
+
+ifneq ($(SRC_LIB),)
+$(SRC_LIB): $(SRC_OBJ)
+	$(AR) rcs $@ $^
+endif
+
+ifeq ($(SRC_BASE),)
+BUILDDIR = $(MOD_SRC_DIR)
+OBJDIR = $(MOD_SRC_DIR)
+LIBDIR = $(MOD_SRC_DIR)
+BINDIR = $(MOD_SRC_DIR)
+else
+ifeq ($(DEBUG_SYMBOLS), TRUE)
+BUILDDIR = $(SRC_BASE)/build/$(PLATFORM)_dbg
+else
+BUILDDIR = $(SRC_BASE)/build/$(PLATFORM)
+endif
+OBJDIR = $(BUILDDIR)/obj/$(MODULE)
+LIBDIR = $(BUILDDIR)/lib
+BINDIR = $(BUILDDIR)/bin
+endif
+
+msg:  
+	@echo "You cannot directily execute this Makefile! This Makefile should calledby toplevel Makefile."  
+
+lib: $(OBJDIR) $(LIBDIR)/$(SRC_LIB)  
+
+bin: $(OBJDIR) $(BINDIR)/$(SRC_BIN)  
+	  
+$(OBJDIR): 
+	@echo "MKDIR $(notdir $@)..."
+	@mkdir -p $@
+
+ifneq ($(SRC_BIN),)
+$(BINDIR)/$(SRC_BIN) : $(SRC_OBJ)  
+	$(CC) -o $@ $^ $(LDFLAGS) $(CPPFLAGS)
+endif
+
+ifneq ($(SRC_LIB),)
+$(LIBDIR)/$(SRC_LIB) : $(SRC_OBJ)  
+	$(AR) rcs $@ $^
+endif
+
+# clean target  
+clean:  
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe  
+
+distclean:  
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe $(SRC_BASE)/libs/* $(SRC_BASE)/tags *~  
+
+.PHONY : all clean distclean

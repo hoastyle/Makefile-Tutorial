@@ -1,15 +1,15 @@
 # top level makefile
 
-PLATFORM = OSX
+export PLATFORM = unix
 DIR = src
 SUBDIR = $(shell ls $(DIR))
-export export_var = Just for test export
-export DEBUG_ENABLE = TRUE
 
-ifeq ($(DEBUG_ENABLE), TRUE)
-	export BUILDDIR = ./build/$(PLATFORM)_dbg
+export DEBUG_SYMBOLS = TRUE
+
+ifeq ($(DEBUG_SYMBOLS), TRUE)
+	BUILDDIR = ./build/$(PLATFORM)_dbg
 else
-	export BUILDDIR = ./build/$(PLATFORM)
+	BUILDDIR = ./build/$(PLATFORM)
 endif
 
 # Will bring order problem, might failed because main was compiled first
@@ -21,7 +21,7 @@ $(BUILDDIR):
 main: ipc tools
 
 $(SUBDIR):
-	make -C $(DIR)/$@ MODULES=$@
+	make -C $(DIR)/$@ MODULE=$@
 
 cscope:
 	cscope -Rbq
