@@ -59,9 +59,9 @@ endif
 
 # clean target  
 clean:  
-	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe  
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe *.swp 
 
 distclean:  
-	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe $(SRC_BASE)/libs/* $(SRC_BASE)/tags *~  
+	$(RM) $(SRC_OBJ) $(SRC_LIB) $(SRC_BIN) $(SRC_BIN).exe $(SRC_BASE)/libs/* $(SRC_BASE)/tags *~ *.swp 
 
 .PHONY : all clean distclean
